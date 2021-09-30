@@ -31,6 +31,7 @@ void printLots(list<int> L , list<int> P)
 	*/
     for(it1 = P.begin() ; it1 != P.end() ; ++it1)
     {
+		int i = 0;
         for(it2 = L.begin(); it2 != L.end(); it2++ )
         {
             if(i == *it1 )
