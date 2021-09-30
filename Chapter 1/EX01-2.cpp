@@ -2,7 +2,7 @@
 
 
 
-
+//singly linked list
 class node
 {
 	int data;
@@ -21,7 +21,7 @@ void swap(node n1 , node n2)
 	
 }
 
-
+// doubly linked list 
 class node{
 	
 	int data;
