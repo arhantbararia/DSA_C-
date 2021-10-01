@@ -44,4 +44,5 @@ void swap(node n1 , node n2)
 	
 	n1.prev = n2;
 	n2.next = n1;
+
 }

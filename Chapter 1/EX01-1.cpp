@@ -19,7 +19,7 @@ void printLots(list<int> L , list<int> P)
     list<int> :: iterator it1;
     list<int> :: iterator it2;
 
-    int i = 0;
+   
 	
 	
 	/*
