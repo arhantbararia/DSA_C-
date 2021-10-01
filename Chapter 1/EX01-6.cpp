@@ -3,7 +3,7 @@ using namespace std;
 
 class cirque
 {
-    int size;
+    
 
 public:
 
@@ -12,8 +12,10 @@ public:
     public:
         int id;
         person* next;
+        person* prev;
 
-        person(int i = 0 ,person* n = NULL): id(i) , next(n){
+        person(int i = 0 ,person* n = NULL ): id(i) , next(n){
+                prev = NULL;
 
         }
 
@@ -23,7 +25,11 @@ public:
         }
     };
 
+
+    //data members
     person *head, *tail;
+    int size;
+    int start = 1;
 
     cirque()
     {
@@ -33,6 +39,7 @@ public:
 
         head->next = tail;
         tail->next = head;  
+        tail->prev = head;
     }
 
     void insert(int i)
@@ -43,19 +50,15 @@ public:
         {
             head->next = temp;
             temp->next = tail;
+            tail->prev = temp;
            
         }
         else{
-            person* n = new person;
-            n = head;
-            while( n != tail)
-            {
-                n = n->next;
+            tail->prev->next = temp;
+            
+            tail->prev = temp;
+            temp->next = tail;
 
-            }
-            n->next = temp;
-            n = n->next;
-            n->next = tail;            
         }
         size++;
     }
@@ -67,20 +70,21 @@ public:
         {
             cout<<head->next->id<<"is the winner"<<endl;
             
+            
         }
         else{
             person* temp = new person;
-            temp = head;
-            int j = 0;
-            while(j != i)
+            temp = head->next;
+            int j = 1;
+            while(j != i*start)
             {
                 temp = temp->next;
                 j++;
 
             }
-            cout<<temp->next<<"kicked! ";
-            temp->next = temp->next->next;
-            delete temp;
+            
+            cout<<temp->id<<"kicked! \n";
+            temp = temp->next->next;
             size--;
 
         }
@@ -111,14 +115,25 @@ int main() {
 
     cirque circle;
     int n;cin>>n;
-   // int m;cin>>m;
+    int m;cin>>m;
 
     for(int i = 1 ; i <= n; i++)
     {
         circle.insert(i);
+
     }
 
+
     circle.see();
+
+    while(circle.size != 1)
+    {
+        circle.kick(m%n);
+        circle.start++;
+
+        
+        circle.see();
+    }
 
 
     
