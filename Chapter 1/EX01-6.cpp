@@ -10,86 +10,107 @@ public:
     class person
     {
     public:
-        int id;
+        char id;
         person* next;
         person* prev;
 
-        person(int i = 0 ,person* n = NULL ): id(i) , next(n){
+        person(char i ,person* n = NULL ): id(i) , next(n){
                 prev = NULL;
 
         }
 
-        ~person()
-        {
-            delete this;
-        }
+        
+    
     };
 
 
     //data members
-    person *head, *tail;
+    person *head;
+    person *next_to_kicked;
+
     int size;
     int start = 1;
 
     cirque()
     {
         size =0;
-        head = new person;
-        tail = new person;
-
-        head->next = tail;
-        tail->next = head;  
-        tail->prev = head;
+       
     }
 
-    void insert(int i)
+    void insert(char i)
     {
         person *temp = new person(i);
 
         if(size == 0)
         {
-            head->next = temp;
-            temp->next = tail;
-            tail->prev = temp;
-           
+            head = temp;
+            head->next = head;
+            next_to_kicked = head;
         }
         else{
-            tail->prev->next = temp;
-            
-            tail->prev = temp;
-            temp->next = tail;
+            person *temp1 = head;
+            while(temp1->next != head)
+            {
+                temp1 = temp1->next;
+            }
+            temp1->next = temp;
+            temp->next = head ;
+
 
         }
         size++;
     }
 
-    void kick(int i)
+    void kick(int k)
     {
-        
-        if(size == 1)
+        if(size == 1 )
         {
-            cout<<head->next->id<<"is the winner"<<endl;
-            
-            
-        }
-        else{
-            person* temp = new person;
-            temp = head->next;
-            int j = 1;
-            while(j != i*start)
-            {
-                temp = temp->next;
-                j++;
-
-            }
-            
-            cout<<temp->id<<"kicked! \n";
-            temp = temp->next->next;
+            std::cout<<head->id<<" Wins! "<<std::endl;
             size--;
 
+
+        }
+        else 
+        {
+            
+            
+            if(k ==0)
+            {   
+                person* temp = head;
+
+                std::cout<<temp->id<<" kicked! "<<std::endl;
+                while(temp->next != head)
+                {
+                    temp = temp->next;
+                }
+                //person* temp1 = temp->next;
+                //std::cout<<temp1->id<<std::endl;
+                head = head->next;
+                temp->next = head;
+                size--;
+
+                return;
+
+            }
+            else
+            {   person* temp = next_to_kicked;
+
+                for(int i = 0 ; i < k-1 ; i++)
+                {
+                    temp = temp->next;
+
+                }
+                std::cout<<"\n"<<temp->next->id<<" kicked! " <<std::endl;
+                
+                next_to_kicked = temp->next->next;
+                std::cout<<next_to_kicked->id<<std::endl;
+
+                temp->next = temp->next->next;
+                size--;
+
+            }
         }
     }
-
     void see()
     {
         if(size == 0)
@@ -99,42 +120,42 @@ public:
         }
         else 
         {
-            person* temp = new person;
-            temp = head->next;
-            while(temp != tail)
+            person* temp = head ;
+            while(temp->next != head)
             {
-                cout<<temp->id<<"--";
+                std::cout<<temp->id<<"--";
                 temp = temp->next;
             }
+            std::cout<<temp->id;
         }
     }
 };
 
 
-int main() {
+int main() 
+{
 
     cirque circle;
     int n;cin>>n;
     int m;cin>>m;
 
-    for(int i = 1 ; i <= n; i++)
+    for(int i= 1 ; i <= n; i++)
     {
-        circle.insert(i);
+        circle.insert((char)(i+64));
 
     }
-
 
     circle.see();
 
-    while(circle.size != 1)
+    
+    while(circle.size != 0)
     {
-        circle.kick(m%n);
-        circle.start++;
-
+        circle.kick((m % circle.size ));
         
         circle.see();
     }
-
+    
+    
 
     
     return 0;
